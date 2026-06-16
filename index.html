@@ -3,384 +3,732 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>株式会社極一 | 自動車販売・レンタカー・レッカー</title>
+  <title>株式会社極一 | 自動車販売・レンタカー・車検整備・レッカー</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --green: #6ab04c;
+      --dark: #111;
+      --gray: #f2f2f2;
+    }
 
     body {
       font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
       color: #1a1a1a;
-      background: #f2f2f2;
+      background: #fff;
     }
 
-    /* ヘッダー */
+    a { text-decoration: none; color: inherit; }
+
+    /* ===== TOP BAR ===== */
+    .topbar {
+      background: #000;
+      padding: 6px 24px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 20px;
+      font-size: 0.78rem;
+      color: #aaa;
+    }
+
+    .topbar a { color: #aaa; }
+    .topbar a:hover { color: #fff; }
+
+    .topbar .tel {
+      color: var(--green);
+      font-weight: bold;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ===== HEADER / NAV ===== */
     header {
-      background: #111;
-      padding: 20px 24px;
+      background: var(--dark);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
     }
 
     .header-inner {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 0 auto;
       display: flex;
       align-items: center;
-      gap: 20px;
+      justify-content: space-between;
+      padding: 0 24px;
+      height: 64px;
     }
 
-    .header-logo {
-      width: 72px;
-      height: 72px;
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo img {
+      width: 48px;
+      height: 48px;
       object-fit: cover;
       object-position: center 55%;
-      border-radius: 6px;
-      flex-shrink: 0;
+      border-radius: 4px;
     }
 
-    .header-text h1 {
-      color: #6ab04c;
-      font-size: 1.8rem;
+    .logo-text {
+      color: var(--green);
+      font-size: 1.2rem;
       font-weight: 900;
       letter-spacing: 0.1em;
+      line-height: 1.2;
     }
 
-    .header-text p {
-      color: #888;
+    .logo-sub {
+      font-size: 0.68rem;
+      color: #666;
+      letter-spacing: 0.05em;
+    }
+
+    nav {
+      display: flex;
+      gap: 0;
+    }
+
+    nav a {
+      color: #ccc;
       font-size: 0.82rem;
-      margin-top: 4px;
-      letter-spacing: 0.05em;
+      padding: 0 16px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+      white-space: nowrap;
     }
 
-    /* ヒーロー */
+    nav a:hover {
+      color: #fff;
+      border-bottom-color: var(--green);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #ccc;
+      border-radius: 2px;
+    }
+
+    /* モバイルメニュー */
+    .mobile-menu {
+      display: none;
+      background: #1a1a1a;
+      padding: 8px 0;
+    }
+
+    .mobile-menu a {
+      display: block;
+      color: #ccc;
+      padding: 12px 24px;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #222;
+    }
+
+    .mobile-menu a:hover { color: #fff; background: #222; }
+    .mobile-menu.open { display: block; }
+
+    /* ===== HERO ===== */
     .hero {
-      background: #6ab04c;
-      padding: 48px 24px;
-      text-align: center;
+      position: relative;
+      height: 520px;
+      overflow: hidden;
+      background: #000;
     }
 
-    .hero h2 {
-      font-size: 1.7rem;
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      opacity: 0.55;
+    }
+
+    .hero-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 48px;
+      max-width: 700px;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background: var(--green);
+      color: #000;
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 4px 12px;
+      border-radius: 2px;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      color: #fff;
+      font-size: 2.6rem;
       font-weight: 900;
-      color: #111;
-      letter-spacing: 0.05em;
-      margin-bottom: 10px;
+      line-height: 1.25;
+      letter-spacing: 0.03em;
+      margin-bottom: 14px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }
 
     .hero p {
-      font-size: 0.95rem;
-      color: #2a4a1a;
-      line-height: 1.7;
+      color: #ccc;
+      font-size: 0.92rem;
+      line-height: 1.8;
+      margin-bottom: 28px;
     }
 
-    /* サービス3ボックス */
-    .services {
-      max-width: 1000px;
-      margin: 32px auto 0;
-      padding: 0 20px;
+    .hero-btn {
+      display: inline-block;
+      background: var(--green);
+      color: #000;
+      font-weight: 900;
+      font-size: 0.9rem;
+      padding: 13px 28px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ===== QUICK ACCESS ===== */
+    .quick {
+      background: var(--dark);
+      padding: 0;
+    }
+
+    .quick-inner {
+      max-width: 1100px;
+      margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(4, 1fr);
     }
 
-    .service-box {
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-      padding: 28px 16px;
+    .quick-item {
+      padding: 18px 16px;
       text-align: center;
-      border-top: 4px solid #6ab04c;
+      border-right: 1px solid #222;
+      cursor: pointer;
+      transition: background 0.2s;
     }
 
-    .service-box .s-icon {
-      font-size: 1.8rem;
-      line-height: 1;
-      margin-bottom: 10px;
-      color: #6ab04c;
+    .quick-item:last-child { border-right: none; }
+    .quick-item:hover { background: #1a1a1a; }
+
+    .quick-item a {
+      display: block;
+      color: #fff;
+    }
+
+    .quick-icon {
+      font-size: 1.4rem;
+      margin-bottom: 4px;
+      color: var(--green);
       font-weight: 900;
     }
 
-    .service-box h3 {
-      font-size: 1rem;
+    .quick-label {
+      font-size: 0.82rem;
+      font-weight: bold;
+      color: #ddd;
+    }
+
+    .quick-sub {
+      font-size: 0.7rem;
+      color: #666;
+      margin-top: 2px;
+    }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      padding: 60px 24px;
+    }
+
+    .section.gray { background: var(--gray); }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-head {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-head h2 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #111;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .section-head .en {
+      font-size: 0.75rem;
+      color: var(--green);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    .section-head p {
+      font-size: 0.88rem;
+      color: #888;
+      margin-top: 8px;
+      line-height: 1.7;
+    }
+
+    /* ===== サービスカード ===== */
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .service-card {
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
+
+    .service-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .service-body {
+      padding: 20px;
+    }
+
+    .service-tag {
+      font-size: 0.7rem;
+      color: var(--green);
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .service-body h3 {
+      font-size: 1.1rem;
       font-weight: 900;
       color: #111;
       margin-bottom: 8px;
     }
 
-    .service-box p {
-      font-size: 0.82rem;
-      color: #666;
-      line-height: 1.6;
-    }
-
-    /* コンテナ */
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 32px 20px 40px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-      padding: 32px;
-      margin-bottom: 24px;
-    }
-
-    .section-title {
-      font-size: 1.05rem;
-      font-weight: 900;
-      color: #111;
-      border-left: 4px solid #6ab04c;
-      padding-left: 12px;
-      margin-bottom: 20px;
-      letter-spacing: 0.05em;
-    }
-
-    /* 写真グリッド */
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    .photo-grid img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 6px;
-      display: block;
-    }
-
-    .photo-grid-wide {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    .photo-grid-wide img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 6px;
-      display: block;
-    }
-
-    .photo-single img {
-      width: 100%;
-      max-height: 340px;
-      object-fit: cover;
-      border-radius: 6px;
-      display: block;
-    }
-
-    .note {
-      margin-top: 16px;
-      font-size: 0.88rem;
+    .service-body p {
+      font-size: 0.83rem;
       color: #666;
       line-height: 1.7;
+      margin-bottom: 14px;
     }
 
-    /* 会社情報テーブル */
-    table {
+    .service-link {
+      display: inline-block;
+      font-size: 0.82rem;
+      font-weight: bold;
+      color: var(--green);
+      border-bottom: 1px solid var(--green);
+      padding-bottom: 1px;
+    }
+
+    /* ===== 車両ギャラリー ===== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 6px;
+      display: block;
+      transition: opacity 0.2s;
+    }
+
+    .gallery-grid img:hover { opacity: 0.85; }
+
+    /* ===== 会社情報 ===== */
+    .company-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    table.info {
       width: 100%;
       border-collapse: collapse;
     }
 
-    table tr {
-      border-bottom: 1px solid #f0f0f0;
+    table.info tr {
+      border-bottom: 1px solid #eee;
     }
 
-    table tr:last-child {
-      border-bottom: none;
-    }
+    table.info tr:last-child { border-bottom: none; }
 
-    table th {
+    table.info th {
       text-align: left;
       padding: 12px 8px;
-      color: #666;
+      color: #888;
       font-weight: normal;
-      font-size: 0.9rem;
-      width: 140px;
-      white-space: nowrap;
-    }
-
-    table td {
-      padding: 12px 8px;
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
-
-    table td a {
-      color: #6ab04c;
-      text-decoration: none;
-    }
-
-    table td a:hover {
-      text-decoration: underline;
-    }
-
-    .map-link {
-      display: inline-block;
-      margin-top: 4px;
       font-size: 0.85rem;
-      color: #6ab04c;
-      text-decoration: none;
+      width: 110px;
+      white-space: nowrap;
+      vertical-align: top;
     }
 
-    /* 地図 */
+    table.info td {
+      padding: 12px 8px;
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    table.info td a { color: var(--green); }
+
     .map-wrap {
-      border-radius: 6px;
+      border-radius: 8px;
       overflow: hidden;
-      border: 1px solid #e8edf3;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
     }
 
     .map-wrap iframe {
       width: 100%;
-      height: 360px;
+      height: 320px;
       border: none;
       display: block;
     }
 
-    /* 電話CTA */
+    /* ===== CTA ===== */
     .cta {
-      background: #111;
+      background: var(--dark);
+      padding: 56px 24px;
       text-align: center;
-      padding: 44px 20px;
     }
 
-    .cta p {
-      font-size: 0.9rem;
-      color: #888;
-      margin-bottom: 14px;
+    .cta h2 {
+      color: #fff;
+      font-size: 1.3rem;
+      font-weight: 900;
+      margin-bottom: 8px;
       letter-spacing: 0.05em;
     }
 
-    .cta a {
+    .cta p {
+      color: #666;
+      font-size: 0.85rem;
+      margin-bottom: 24px;
+    }
+
+    .cta-btn {
       display: inline-block;
-      background: #6ab04c;
-      color: #111;
+      background: var(--green);
+      color: #000;
       font-weight: 900;
-      font-size: 1.4rem;
-      padding: 14px 40px;
+      font-size: 1.5rem;
+      padding: 16px 48px;
       border-radius: 4px;
-      text-decoration: none;
       letter-spacing: 0.1em;
     }
 
-    .cta small {
-      display: block;
-      color: #666;
+    .cta-hours {
+      color: #555;
       font-size: 0.8rem;
       margin-top: 12px;
     }
 
-    /* フッター */
+    /* ===== FOOTER ===== */
     footer {
       background: #0a0a0a;
-      text-align: center;
-      padding: 20px;
-      color: #444;
-      font-size: 0.78rem;
+      padding: 32px 24px;
     }
 
-    @media (max-width: 640px) {
-      .header-text h1 { font-size: 1.4rem; }
-      .hero h2 { font-size: 1.3rem; }
-      .services { grid-template-columns: 1fr; }
-      .photo-grid { grid-template-columns: repeat(2, 1fr); }
-      .photo-grid img { height: 120px; }
-      .photo-grid-wide { grid-template-columns: 1fr; }
-      .card { padding: 20px 16px; }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo {
+      color: var(--green);
+      font-size: 1.1rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+
+    .footer-info {
+      font-size: 0.78rem;
+      color: #555;
+      line-height: 1.8;
+    }
+
+    .footer-links h4 {
+      color: #888;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      display: block;
+      font-size: 0.8rem;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    .footer-links a:hover { color: #aaa; }
+
+    .footer-copy {
+      border-top: 1px solid #1a1a1a;
+      margin-top: 28px;
+      padding-top: 16px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #333;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      nav { display: none; }
+      .hamburger { display: flex; }
+      .topbar { display: none; }
+
+      .hero { height: 380px; }
+      .hero h1 { font-size: 1.7rem; }
+      .hero-content { padding: 0 24px; }
+
+      .quick-inner { grid-template-columns: repeat(2, 1fr); }
+      .quick-item { border-bottom: 1px solid #222; }
+
+      .service-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid img { height: 130px; }
+      .company-grid { grid-template-columns: 1fr; }
+
+      .footer-inner { flex-direction: column; gap: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero { height: 320px; }
+      .hero h1 { font-size: 1.4rem; }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="header-inner">
-      <img class="header-logo" src="IMG_0126.PNG" alt="ゴクイチ看板">
-      <div class="header-text">
-        <h1>株式会社極一</h1>
-        <p>自動車販売 &nbsp;／&nbsp; レンタカー &nbsp;／&nbsp; レッカー事業</p>
+<!-- トップバー -->
+<div class="topbar">
+  <span>平日 9:00〜17:00</span>
+  <a href="tel:0775487084" class="tel">077-548-7084</a>
+</div>
+
+<!-- ヘッダー -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <img src="IMG_0126.PNG" alt="極一ロゴ">
+      <div>
+        <div class="logo-text">株式会社極一</div>
+        <div class="logo-sub">自動車販売 / レンタカー / 車検整備 / レッカー</div>
       </div>
     </div>
-  </header>
-
-  <div class="hero">
-    <h2>極上の一台を、あなたへ。</h2>
-    <p>欧州高級輸入車を中心に、販売・レンタル・レッカーまで<br>滋賀県大津市から幅広くお応えします。</p>
-  </div>
-
-  <div class="services">
-    <div class="service-box">
-      <div class="s-icon">販</div>
-      <h3>自動車販売</h3>
-      <p>Mercedes-Benz・BMW・Bentleyなど欧州高級輸入車を中心に幅広く取り扱い</p>
-    </div>
-    <div class="service-box">
-      <div class="s-icon">貸</div>
-      <h3>レンタカー</h3>
-      <p>高級輸入車をレンタルで。特別な日にふさわしい一台をご用意しています</p>
-    </div>
-    <div class="service-box">
-      <div class="s-icon">車</div>
-      <h3>レッカー事業</h3>
-      <p>車のトラブル・故障・事故など急なご依頼にも迅速に対応いたします</p>
+    <nav>
+      <a href="#sales">取扱車両</a>
+      <a href="#rental">レンタカー</a>
+      <a href="#shaken">車検・整備</a>
+      <a href="#rekkaa">レッカー</a>
+      <a href="#company">会社情報</a>
+      <a href="#access">アクセス</a>
+    </nav>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
     </div>
   </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#sales" onclick="toggleMenu()">取扱車両</a>
+    <a href="#rental" onclick="toggleMenu()">レンタカー</a>
+    <a href="#shaken" onclick="toggleMenu()">車検・整備</a>
+    <a href="#rekkaa" onclick="toggleMenu()">レッカー</a>
+    <a href="#company" onclick="toggleMenu()">会社情報</a>
+    <a href="#access" onclick="toggleMenu()">アクセス</a>
+  </div>
+</header>
 
-  <div class="container">
+<!-- ヒーロー -->
+<div class="hero">
+  <img src="IMG_0477.JPG" alt="Bentley">
+  <div class="hero-content">
+    <span class="hero-tag">滋賀県大津市の輸入車専門店</span>
+    <h1>極上の一台を、<br>あなたへ。</h1>
+    <p>Mercedes-Benz・BMW・Bentleyなど欧州高級輸入車を中心に<br>販売・レンタカー・車検整備・レッカーまで幅広くお応えします。</p>
+    <a href="tel:0775487084" class="hero-btn">077-548-7084 に電話する</a>
+  </div>
+</div>
 
-    <div class="card">
-      <h2 class="section-title">取扱車両</h2>
-      <div class="photo-grid">
-        <img src="IMG_0477.JPG" alt="Bentley Continental GT">
-        <img src="IMG_0537.jpg" alt="BMW Alpina">
-        <img src="IMG_0538.jpg" alt="Mercedes-Benz">
-        <img src="IMG_0539.jpg" alt="Mercedes-Benz">
-        <img src="IMG_9959.JPG" alt="Volvo S90">
-        <img src="IMG_0050.JPG" alt="Mercedes-Benz S300">
-      </div>
-      <p class="note">Mercedes-Benz・BMW Alpina・Bentley・Volvoなど欧州高級輸入車を中心に取り扱っております。在庫状況はお電話にてお問い合わせください。</p>
+<!-- クイックアクセス -->
+<div class="quick">
+  <div class="quick-inner">
+    <div class="quick-item">
+      <a href="#sales">
+        <div class="quick-icon">販</div>
+        <div class="quick-label">在庫車両</div>
+        <div class="quick-sub">輸入車を中心に取扱い</div>
+      </a>
     </div>
-
-    <div class="card">
-      <h2 class="section-title">レンタカー</h2>
-      <div class="photo-grid-wide">
-        <img src="IMG_0477.JPG" alt="Bentley レンタカー">
-        <img src="IMG_0538.jpg" alt="Mercedes-Benz レンタカー">
-        <img src="IMG_0539.jpg" alt="Mercedes-Benz レンタカー">
-        <img src="IMG_0537.jpg" alt="BMW Alpina レンタカー">
-      </div>
-      <p class="note">Mercedes-Benz・BMW・Bentleyなど欧州高級輸入車のレンタカーをご用意しております。料金・空き状況はお気軽にお電話ください。</p>
+    <div class="quick-item">
+      <a href="shaken.html">
+        <div class="quick-icon">検</div>
+        <div class="quick-label">車検見積もり</div>
+        <div class="quick-sub">料金をかんたん計算</div>
+      </a>
     </div>
-
-    <div class="card">
-      <h2 class="section-title">レッカー事業</h2>
-      <div class="photo-single">
-        <img src="IMG_9209.JPG" alt="レッカー車">
-      </div>
-      <p class="note">突然の故障・事故・スタック等、どんなトラブルにも迅速に対応いたします。まずはお電話ください。</p>
+    <div class="quick-item">
+      <a href="rekkaa.html">
+        <div class="quick-icon">救</div>
+        <div class="quick-label">レッカー料金</div>
+        <div class="quick-sub">距離・オプションで計算</div>
+      </a>
     </div>
+    <div class="quick-item">
+      <a href="tel:0775487084">
+        <div class="quick-icon">電</div>
+        <div class="quick-label">電話で相談</div>
+        <div class="quick-sub">077-548-7084</div>
+      </a>
+    </div>
+  </div>
+</div>
 
-    <div class="card">
-      <h2 class="section-title">会社情報</h2>
-      <table>
+<!-- 取扱車両 -->
+<div class="section gray" id="sales">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="en">Vehicle Sales</div>
+      <h2>取扱車両</h2>
+      <p>欧州高級輸入車を中心に幅広く取り扱っております。</p>
+    </div>
+    <div class="gallery-grid">
+      <img src="IMG_0477.JPG" alt="Bentley Continental GT">
+      <img src="IMG_0537.jpg" alt="BMW Alpina">
+      <img src="IMG_0538.jpg" alt="Mercedes-Benz">
+      <img src="IMG_0539.jpg" alt="Mercedes-Benz">
+      <img src="IMG_9959.JPG" alt="Volvo S90">
+      <img src="IMG_0050.JPG" alt="Mercedes-Benz S300">
+    </div>
+  </div>
+</div>
+
+<!-- サービス -->
+<div class="section" id="rental">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="en">Our Services</div>
+      <h2>サービス</h2>
+    </div>
+    <div class="service-grid">
+
+      <div class="service-card">
+        <img class="service-img" src="IMG_0477.JPG" alt="レンタカー">
+        <div class="service-body">
+          <div class="service-tag">Rental Car</div>
+          <h3>レンタカー</h3>
+          <p>Mercedes-Benz・BMW・Bentleyなど欧州高級輸入車のレンタカーをご用意。特別な日にふさわしい一台を。</p>
+          <a href="tel:0775487084" class="service-link">お電話でご相談 &rarr;</a>
+        </div>
+      </div>
+
+      <div class="service-card" id="shaken">
+        <img class="service-img" src="IMG_0539.jpg" alt="車検整備">
+        <div class="service-body">
+          <div class="service-tag">Shaken &amp; Maintenance</div>
+          <h3>車検・整備</h3>
+          <p>輸入車・国産車の車検・定期点検・各種整備に対応。まずはお気軽に見積もりをご確認ください。</p>
+          <a href="shaken.html" class="service-link">車検見積もりを計算する &rarr;</a>
+        </div>
+      </div>
+
+      <div class="service-card" id="rekkaa">
+        <img class="service-img" src="IMG_9209.JPG" alt="レッカー">
+        <div class="service-body">
+          <div class="service-tag">Towing Service</div>
+          <h3>レッカー事業</h3>
+          <p>突然の故障・事故・スタック等、どんなトラブルにも迅速に対応。まずはお電話ください。</p>
+          <a href="rekkaa.html" class="service-link">レッカー料金を計算する &rarr;</a>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <img class="service-img" src="IMG_0538.jpg" alt="自動車販売">
+        <div class="service-body">
+          <div class="service-tag">Vehicle Sales</div>
+          <h3>自動車販売</h3>
+          <p>Mercedes-Benz・BMW Alpina・Bentley・Volvoなど欧州高級輸入車を中心に取り扱い。在庫はお電話にてご確認ください。</p>
+          <a href="tel:0775487084" class="service-link">在庫を確認する &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- 会社情報 -->
+<div class="section gray" id="company">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="en">Company Info</div>
+      <h2>会社情報</h2>
+    </div>
+    <div class="company-grid">
+      <table class="info">
         <tr>
           <th>会社名</th>
           <td>株式会社極一</td>
         </tr>
         <tr>
           <th>事業内容</th>
-          <td>自動車販売・レンタカー事業・レッカー事業</td>
+          <td>自動車販売・レンタカー事業・車検整備・レッカー事業</td>
         </tr>
         <tr>
           <th>所在地</th>
-          <td>
-            〒520-0006<br>
-            滋賀県大津市山上町776-8<br>
-            <a class="map-link" href="https://maps.app.goo.gl/1vDGBbeVfP7Xhg65A" target="_blank" rel="noopener noreferrer">Google マップで見る &rarr;</a>
-          </td>
+          <td>〒520-0006<br>滋賀県大津市山上町776-8</td>
         </tr>
         <tr>
           <th>電話</th>
@@ -395,32 +743,58 @@
           <td>平日 9:00 〜 17:00</td>
         </tr>
       </table>
-    </div>
-
-    <div class="card">
-      <h2 class="section-title">アクセス</h2>
-      <div class="map-wrap">
+      <div class="map-wrap" id="access">
         <iframe
           src="https://maps.google.com/maps?q=35.0329915,135.84093&t=&z=17&ie=UTF8&iwloc=&output=embed"
-          allowfullscreen
-          loading="lazy"
+          allowfullscreen loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
           title="株式会社極一 所在地">
         </iframe>
       </div>
     </div>
-
   </div>
+</div>
 
-  <div class="cta">
-    <p>ご購入・レンタル・レッカーのご相談はお気軽に</p>
-    <a href="tel:0775487084">077-548-7084</a>
-    <small>平日 9:00 〜 17:00</small>
+<!-- CTA -->
+<div class="cta">
+  <h2>ご購入・レンタル・車検・レッカーのご相談はお気軽に</h2>
+  <p>まずはお電話ください。スタッフが丁寧にご対応いたします。</p>
+  <a href="tel:0775487084" class="cta-btn">077-548-7084</a>
+  <div class="cta-hours">平日 9:00 〜 17:00</div>
+</div>
+
+<!-- フッター -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">株式会社極一</div>
+      <div class="footer-info">
+        〒520-0006 滋賀県大津市山上町776-8<br>
+        TEL：077-548-7084　FAX：077-548-7086<br>
+        営業時間：平日 9:00〜17:00
+      </div>
+    </div>
+    <div class="footer-links">
+      <h4>サービス</h4>
+      <a href="#sales">取扱車両</a>
+      <a href="#rental">レンタカー</a>
+      <a href="shaken.html">車検・整備</a>
+      <a href="rekkaa.html">レッカー事業</a>
+    </div>
+    <div class="footer-links">
+      <h4>ツール</h4>
+      <a href="shaken.html">車検見積もり</a>
+      <a href="rekkaa.html">レッカー料金計算</a>
+    </div>
   </div>
+  <div class="footer-copy">&copy; 2026 株式会社極一 All Rights Reserved.</div>
+</footer>
 
-  <footer>
-    &copy; 2026 株式会社極一 All Rights Reserved.
-  </footer>
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+</script>
 
 </body>
 </html>
