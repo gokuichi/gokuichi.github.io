@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>車検見積もり | 株式会社極一</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+      background: #f2f2f2;
+      color: #1a1a1a;
+    }
+
+    header {
+      background: #111;
+      padding: 16px 24px;
+    }
+
+    header h1 {
+      color: #6ab04c;
+      font-size: 1.2rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+    }
+
+    header p {
+      color: #666;
+      font-size: 0.8rem;
+      margin-top: 2px;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 20px 16px 48px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      padding: 22px;
+      margin-bottom: 14px;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #111;
+      border-left: 4px solid #6ab04c;
+      padding-left: 10px;
+      margin-bottom: 18px;
+    }
+
+    /* 車種選択 */
+    .vehicle-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .vehicle-btn {
+      padding: 14px 8px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      background: #fff;
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #555;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .vehicle-btn.active {
+      border-color: #6ab04c;
+      background: #f0f9eb;
+      color: #3a7a1a;
+    }
+
+    .vehicle-btn .sub {
+      font-size: 0.72rem;
+      font-weight: normal;
+      color: #999;
+      margin-top: 2px;
+    }
+
+    .vehicle-btn.active .sub {
+      color: #6ab04c;
+    }
+
+    /* 重量選択 */
+    .weight-select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      color: #333;
+      background: #fff;
+      outline: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+    }
+
+    .weight-select:focus {
+      border-color: #6ab04c;
+    }
+
+    /* 法定費用テーブル */
+    .fee-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .fee-table tr {
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .fee-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .fee-table td {
+      padding: 10px 6px;
+    }
+
+    .fee-table td:first-child {
+      color: #666;
+    }
+
+    .fee-table td:last-child {
+      text-align: right;
+      font-weight: bold;
+      color: #111;
+    }
+
+    .fee-subtotal {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+      font-size: 0.88rem;
+    }
+
+    .fee-subtotal span:last-child {
+      font-weight: bold;
+      color: #6ab04c;
+    }
+
+    /* 整備項目 */
+    .option-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 0;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+    }
+
+    .option-row:last-child {
+      border-bottom: none;
+    }
+
+    .option-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: #444;
+    }
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #6ab04c;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .option-price {
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: #333;
+      white-space: nowrap;
+    }
+
+    .note-text {
+      font-size: 0.75rem;
+      color: #bbb;
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+
+    /* 合計 */
+    .total-card {
+      background: #111;
+      border-radius: 8px;
+      padding: 22px;
+      margin-bottom: 14px;
+    }
+
+    .section-label {
+      font-size: 0.76rem;
+      color: #555;
+      margin: 12px 0 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .section-label:first-child {
+      margin-top: 0;
+    }
+
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.84rem;
+      color: #888;
+      padding: 3px 0;
+    }
+
+    .breakdown-row.legal {
+      color: #777;
+    }
+
+    .total-line {
+      border-top: 1px solid #2a2a2a;
+      margin-top: 14px;
+      padding-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .total-line > span:first-child {
+      color: #666;
+      font-size: 0.88rem;
+    }
+
+    .total-amount {
+      color: #6ab04c;
+      font-size: 2rem;
+      font-weight: 900;
+    }
+
+    .btn-reset {
+      width: 100%;
+      padding: 13px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: #888;
+      cursor: pointer;
+    }
+
+    .btn-reset:active { background: #f5f5f5; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>株式会社極一</h1>
+  <p>車検 簡易見積もり</p>
+</header>
+
+<div class="container">
+
+  <!-- 車種選択 -->
+  <div class="card">
+    <div class="card-title">車種</div>
+    <div class="vehicle-grid">
+      <button class="vehicle-btn" onclick="selectVehicle('kei')" id="btn-kei">
+        軽自動車
+        <div class="sub">〜660cc</div>
+      </button>
+      <button class="vehicle-btn active" onclick="selectVehicle('futsu')" id="btn-futsu">
+        普通車
+        <div class="sub">輸入車・国産</div>
+      </button>
+    </div>
+    <div id="weightWrap">
+      <select class="weight-select" id="weightSelect" onchange="calc()">
+        <option value="1000">〜1t（コンパクト・軽SUV等）</option>
+        <option value="1500" selected>〜1.5t（セダン・ミニバン等）</option>
+        <option value="2000">〜2t（大型セダン・SUV等）</option>
+        <option value="2500">〜2.5t（大型SUV・輸入車等）</option>
+        <option value="3000">〜3t</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- 法定費用 -->
+  <div class="card">
+    <div class="card-title">法定費用（固定）</div>
+    <table class="fee-table">
+      <tr>
+        <td>自動車重量税（2年）</td>
+        <td id="weightTax">32,800円</td>
+      </tr>
+      <tr>
+        <td>自賠責保険（24ヶ月）</td>
+        <td id="jibaiseki">17,650円</td>
+      </tr>
+      <tr>
+        <td>印紙・証紙代</td>
+        <td>1,800円</td>
+      </tr>
+    </table>
+    <div class="fee-subtotal">
+      <span>法定費用 小計</span>
+      <span id="legalSubtotal">52,250円</span>
+    </div>
+  </div>
+
+  <!-- 基本整備料 -->
+  <div class="card">
+    <div class="card-title">基本検査・整備料（税込）</div>
+    <table class="fee-table">
+      <tr>
+        <td>車検基本料</td>
+        <td id="basicFee">35,000円</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 追加整備 -->
+  <div class="card">
+    <div class="card-title">追加整備（目安・税込）</div>
+
+    <label class="option-row">
+      <div class="option-left">
+        <input type="checkbox" id="oil" onchange="calc()">
+        <span>エンジンオイル交換</span>
+      </div>
+      <span class="option-price">3,300円〜</span>
+    </label>
+    <label class="option-row">
+      <div class="option-left">
+        <input type="checkbox" id="oilFilter" onchange="calc()">
+        <span>オイルエレメント交換</span>
+      </div>
+      <span class="option-price">1,100円〜</span>
+    </label>
+    <label class="option-row">
+      <div class="option-left">
+        <input type="checkbox" id="brakeFluid" onchange="calc()">
+        <span>ブレーキフルード交換</span>
+      </div>
+      <span class="option-price">3,300円〜</span>
+    </label>
+    <label class="option-row">
+      <div class="option-left">
+        <input type="checkbox" id="llc" onchange="calc()">
+        <span>冷却水（LLC）交換</span>
+      </div>
+      <span class="option-price">5,500円〜</span>
+    </label>
+    <label class="option-row">
+      <div class="option-left">
+        <input type="checkbox" id="wiper" onchange="calc()">
+        <span>ワイパーゴム交換（前後）</span>
+      </div>
+      <span class="option-price">3,300円〜</span>
+    </label>
+    <label class="option-row">
+      <div class="option-left">
+        <input type="checkbox" id="airFilter" onchange="calc()">
+        <span>エアフィルター交換</span>
+      </div>
+      <span class="option-price">3,300円〜</span>
+    </label>
+    <label class="option-row">
+      <div class="option-left">
+        <input type="checkbox" id="battery" onchange="calc()">
+        <span>バッテリー交換</span>
+      </div>
+      <span class="option-price">22,000円〜</span>
+    </label>
+    <label class="option-row">
+      <div class="option-left">
+        <input type="checkbox" id="brakePadF" onchange="calc()">
+        <span>ブレーキパッド交換（前）</span>
+      </div>
+      <span class="option-price">22,000円〜</span>
+    </label>
+    <label class="option-row">
+      <div class="option-left">
+        <input type="checkbox" id="brakePadR" onchange="calc()">
+        <span>ブレーキパッド交換（後）</span>
+      </div>
+      <span class="option-price">16,500円〜</span>
+    </label>
+    <label class="option-row">
+      <div class="option-left">
+        <input type="checkbox" id="brakeDisc" onchange="calc()">
+        <span>ブレーキディスク交換（前）</span>
+      </div>
+      <span class="option-price">33,000円〜</span>
+    </label>
+
+    <p class="note-text">※ 追加整備の金額は目安です。車種・状態により異なります。</p>
+  </div>
+
+  <!-- 合計 -->
+  <div class="total-card">
+    <div id="breakdown"></div>
+    <div class="total-line">
+      <span>概算合計</span>
+      <span class="total-amount" id="totalAmount">-</span>
+    </div>
+  </div>
+
+  <button class="btn-reset" onclick="resetAll()">リセット</button>
+
+</div>
+
+<script>
+  // 料金データ
+  const WEIGHT_TAX = {
+    kei:  6600,
+    1000: 16400,
+    1500: 24600,
+    2000: 32800,
+    2500: 41000,
+    3000: 49200,
+  };
+
+  const BASIC_FEE = { kei: 30000, futsu: 35000 };
+  const JIBAISEKI = 17650;
+  const INSHI = 1800;
+
+  const OPTIONS = [
+    { id: 'oil',        label: 'エンジンオイル交換',      price: 3300 },
+    { id: 'oilFilter',  label: 'オイルエレメント交換',     price: 1100 },
+    { id: 'brakeFluid', label: 'ブレーキフルード交換',     price: 3300 },
+    { id: 'llc',        label: '冷却水（LLC）交換',        price: 5500 },
+    { id: 'wiper',      label: 'ワイパーゴム交換（前後）', price: 3300 },
+    { id: 'airFilter',  label: 'エアフィルター交換',       price: 3300 },
+    { id: 'battery',    label: 'バッテリー交換',           price: 22000 },
+    { id: 'brakePadF',  label: 'ブレーキパッド交換（前）', price: 22000 },
+    { id: 'brakePadR',  label: 'ブレーキパッド交換（後）', price: 16500 },
+    { id: 'brakeDisc',  label: 'ブレーキディスク交換（前）',price: 33000 },
+  ];
+
+  let currentVehicle = 'futsu';
+
+  function selectVehicle(type) {
+    currentVehicle = type;
+    document.getElementById('btn-kei').classList.toggle('active', type === 'kei');
+    document.getElementById('btn-futsu').classList.toggle('active', type === 'futsu');
+    document.getElementById('weightWrap').style.display = type === 'kei' ? 'none' : 'block';
+    calc();
+  }
+
+  function fmt(n) {
+    return n.toLocaleString('ja-JP') + '円';
+  }
+
+  function calc() {
+    const isKei = currentVehicle === 'kei';
+    const weightKey = isKei ? 'kei' : parseInt(document.getElementById('weightSelect').value);
+
+    const weightTax = WEIGHT_TAX[weightKey];
+    const basicFee = BASIC_FEE[isKei ? 'kei' : 'futsu'];
+    const legalTotal = weightTax + JIBAISEKI + INSHI;
+
+    // 表示更新
+    document.getElementById('weightTax').textContent = fmt(weightTax);
+    document.getElementById('jibaiseki').textContent = fmt(JIBAISEKI);
+    document.getElementById('legalSubtotal').textContent = fmt(legalTotal);
+    document.getElementById('basicFee').textContent = fmt(basicFee);
+
+    // 追加整備
+    const optRows = [];
+    let optTotal = 0;
+    OPTIONS.forEach(o => {
+      if (document.getElementById(o.id).checked) {
+        optRows.push(o);
+        optTotal += o.price;
+      }
+    });
+
+    const total = legalTotal + basicFee + optTotal;
+
+    // 内訳
+    let html = '';
+    html += `<div class="section-label">法定費用</div>`;
+    html += `<div class="breakdown-row legal"><span>自動車重量税</span><span>${fmt(weightTax)}</span></div>`;
+    html += `<div class="breakdown-row legal"><span>自賠責保険</span><span>${fmt(JIBAISEKI)}</span></div>`;
+    html += `<div class="breakdown-row legal"><span>印紙・証紙代</span><span>${fmt(INSHI)}</span></div>`;
+    html += `<div class="section-label">整備料</div>`;
+    html += `<div class="breakdown-row"><span>車検基本料</span><span>${fmt(basicFee)}</span></div>`;
+    if (optRows.length > 0) {
+      html += `<div class="section-label">追加整備</div>`;
+      optRows.forEach(o => {
+        html += `<div class="breakdown-row"><span>${o.label}</span><span>${fmt(o.price)}〜</span></div>`;
+      });
+    }
+    document.getElementById('breakdown').innerHTML = html;
+    document.getElementById('totalAmount').textContent = fmt(total) + '〜';
+  }
+
+  function resetAll() {
+    OPTIONS.forEach(o => { document.getElementById(o.id).checked = false; });
+    document.getElementById('weightSelect').value = '1500';
+    selectVehicle('futsu');
+  }
+
+  // 初期表示
+  selectVehicle('futsu');
+</script>
+
+</body>
+</html>
