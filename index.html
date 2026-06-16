@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>株式会社ゴクイチ | 自動車販売・レンタカー・レッカー</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+      color: #1a1a1a;
+      background: #f2f2f2;
+    }
+
+    /* ヘッダー */
+    header {
+      background: #111;
+      padding: 20px 24px;
+    }
+
+    .header-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .header-logo {
+      width: 72px;
+      height: 72px;
+      object-fit: cover;
+      object-position: center 55%;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+
+    .header-text h1 {
+      color: #6ab04c;
+      font-size: 1.8rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+    }
+
+    .header-text p {
+      color: #888;
+      font-size: 0.82rem;
+      margin-top: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ヒーロー */
+    .hero {
+      background: #6ab04c;
+      padding: 48px 24px;
+      text-align: center;
+    }
+
+    .hero h2 {
+      font-size: 1.7rem;
+      font-weight: 900;
+      color: #111;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 0.95rem;
+      color: #2a4a1a;
+      line-height: 1.7;
+    }
+
+    /* サービス3ボックス */
+    .services {
+      max-width: 1000px;
+      margin: 32px auto 0;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .service-box {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      padding: 28px 16px;
+      text-align: center;
+      border-top: 4px solid #6ab04c;
+    }
+
+    .service-box .s-icon {
+      font-size: 1.8rem;
+      line-height: 1;
+      margin-bottom: 10px;
+      color: #6ab04c;
+      font-weight: 900;
+    }
+
+    .service-box h3 {
+      font-size: 1rem;
+      font-weight: 900;
+      color: #111;
+      margin-bottom: 8px;
+    }
+
+    .service-box p {
+      font-size: 0.82rem;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* コンテナ */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 32px 20px 40px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: #111;
+      border-left: 4px solid #6ab04c;
+      padding-left: 12px;
+      margin-bottom: 20px;
+      letter-spacing: 0.05em;
+    }
+
+    /* 写真グリッド */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .photo-grid img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 6px;
+      display: block;
+    }
+
+    .photo-grid-wide {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .photo-grid-wide img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 6px;
+      display: block;
+    }
+
+    .photo-single img {
+      width: 100%;
+      max-height: 340px;
+      object-fit: cover;
+      border-radius: 6px;
+      display: block;
+    }
+
+    .note {
+      margin-top: 16px;
+      font-size: 0.88rem;
+      color: #666;
+      line-height: 1.7;
+    }
+
+    /* 会社情報テーブル */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table tr {
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    table tr:last-child {
+      border-bottom: none;
+    }
+
+    table th {
+      text-align: left;
+      padding: 12px 8px;
+      color: #666;
+      font-weight: normal;
+      font-size: 0.9rem;
+      width: 140px;
+      white-space: nowrap;
+    }
+
+    table td {
+      padding: 12px 8px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    table td a {
+      color: #6ab04c;
+      text-decoration: none;
+    }
+
+    table td a:hover {
+      text-decoration: underline;
+    }
+
+    .map-link {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 0.85rem;
+      color: #6ab04c;
+      text-decoration: none;
+    }
+
+    /* 地図 */
+    .map-wrap {
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #e8edf3;
+    }
+
+    .map-wrap iframe {
+      width: 100%;
+      height: 360px;
+      border: none;
+      display: block;
+    }
+
+    /* 電話CTA */
+    .cta {
+      background: #111;
+      text-align: center;
+      padding: 44px 20px;
+    }
+
+    .cta p {
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 14px;
+      letter-spacing: 0.05em;
+    }
+
+    .cta a {
+      display: inline-block;
+      background: #6ab04c;
+      color: #111;
+      font-weight: 900;
+      font-size: 1.4rem;
+      padding: 14px 40px;
+      border-radius: 4px;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+    }
+
+    .cta small {
+      display: block;
+      color: #666;
+      font-size: 0.8rem;
+      margin-top: 12px;
+    }
+
+    /* フッター */
+    footer {
+      background: #0a0a0a;
+      text-align: center;
+      padding: 20px;
+      color: #444;
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 640px) {
+      .header-text h1 { font-size: 1.4rem; }
+      .hero h2 { font-size: 1.3rem; }
+      .services { grid-template-columns: 1fr; }
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+      .photo-grid img { height: 120px; }
+      .photo-grid-wide { grid-template-columns: 1fr; }
+      .card { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <img class="header-logo" src="IMG_0126.PNG" alt="ゴクイチ看板">
+      <div class="header-text">
+        <h1>株式会社ゴクイチ</h1>
+        <p>自動車販売 &nbsp;／&nbsp; レンタカー &nbsp;／&nbsp; レッカー事業</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="hero">
+    <h2>極上の一台を、あなたへ。</h2>
+    <p>欧州高級輸入車を中心に、販売・レンタル・レッカーまで<br>滋賀県大津市から幅広くお応えします。</p>
+  </div>
+
+  <div class="services">
+    <div class="service-box">
+      <div class="s-icon">販</div>
+      <h3>自動車販売</h3>
+      <p>Mercedes-Benz・BMW・Bentleyなど欧州高級輸入車を中心に幅広く取り扱い</p>
+    </div>
+    <div class="service-box">
+      <div class="s-icon">貸</div>
+      <h3>レンタカー</h3>
+      <p>高級輸入車をレンタルで。特別な日にふさわしい一台をご用意しています</p>
+    </div>
+    <div class="service-box">
+      <div class="s-icon">車</div>
+      <h3>レッカー事業</h3>
+      <p>車のトラブル・故障・事故など急なご依頼にも迅速に対応いたします</p>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="card">
+      <h2 class="section-title">取扱車両</h2>
+      <div class="photo-grid">
+        <img src="IMG_0477.JPG" alt="Bentley Continental GT">
+        <img src="IMG_0537.jpg" alt="BMW Alpina">
+        <img src="IMG_0538.jpg" alt="Mercedes-Benz">
+        <img src="IMG_0539.jpg" alt="Mercedes-Benz">
+        <img src="IMG_9959.JPG" alt="Volvo S90">
+        <img src="IMG_0050.JPG" alt="Mercedes-Benz S300">
+      </div>
+      <p class="note">Mercedes-Benz・BMW Alpina・Bentley・Volvoなど欧州高級輸入車を中心に取り扱っております。在庫状況はお電話にてお問い合わせください。</p>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">レンタカー</h2>
+      <div class="photo-grid-wide">
+        <img src="IMG_0477.JPG" alt="Bentley レンタカー">
+        <img src="IMG_0538.jpg" alt="Mercedes-Benz レンタカー">
+        <img src="IMG_0539.jpg" alt="Mercedes-Benz レンタカー">
+        <img src="IMG_0537.jpg" alt="BMW Alpina レンタカー">
+      </div>
+      <p class="note">Mercedes-Benz・BMW・Bentleyなど欧州高級輸入車のレンタカーをご用意しております。料金・空き状況はお気軽にお電話ください。</p>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">レッカー事業</h2>
+      <div class="photo-single">
+        <img src="IMG_9209.JPG" alt="レッカー車">
+      </div>
+      <p class="note">突然の故障・事故・スタック等、どんなトラブルにも迅速に対応いたします。まずはお電話ください。</p>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">会社情報</h2>
+      <table>
+        <tr>
+          <th>会社名</th>
+          <td>株式会社ゴクイチ（極一）</td>
+        </tr>
+        <tr>
+          <th>事業内容</th>
+          <td>自動車販売・レンタカー事業・レッカー事業</td>
+        </tr>
+        <tr>
+          <th>所在地</th>
+          <td>
+            〒520-0006<br>
+            滋賀県大津市山上町776-8<br>
+            <a class="map-link" href="https://maps.app.goo.gl/1vDGBbeVfP7Xhg65A" target="_blank" rel="noopener noreferrer">Google マップで見る &rarr;</a>
+          </td>
+        </tr>
+        <tr>
+          <th>電話</th>
+          <td><a href="tel:0775487084">077-548-7084</a></td>
+        </tr>
+        <tr>
+          <th>FAX</th>
+          <td>077-548-7086</td>
+        </tr>
+        <tr>
+          <th>営業時間</th>
+          <td>平日 9:00 〜 17:00</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">アクセス</h2>
+      <div class="map-wrap">
+        <iframe
+          src="https://maps.google.com/maps?q=35.0329915,135.84093&t=&z=17&ie=UTF8&iwloc=&output=embed"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="株式会社ゴクイチ 所在地">
+        </iframe>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cta">
+    <p>ご購入・レンタル・レッカーのご相談はお気軽に</p>
+    <a href="tel:0775487084">077-548-7084</a>
+    <small>平日 9:00 〜 17:00</small>
+  </div>
+
+  <footer>
+    &copy; 2026 株式会社ゴクイチ All Rights Reserved.
+  </footer>
+
+</body>
+</html>
