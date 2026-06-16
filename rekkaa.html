@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>レッカー料金計算 | 株式会社極一</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+      background: #f2f2f2;
+      color: #1a1a1a;
+    }
+
+    header {
+      background: #111;
+      padding: 16px 24px;
+    }
+
+    header h1 {
+      color: #6ab04c;
+      font-size: 1.2rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+    }
+
+    header p {
+      color: #666;
+      font-size: 0.8rem;
+      margin-top: 2px;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 20px 16px 48px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      padding: 22px;
+      margin-bottom: 14px;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #111;
+      border-left: 4px solid #6ab04c;
+      padding-left: 10px;
+      margin-bottom: 18px;
+    }
+
+    /* スライダー */
+    .slider-row {
+      margin-bottom: 20px;
+    }
+
+    .slider-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .slider-label {
+      font-size: 0.88rem;
+      color: #555;
+    }
+
+    .slider-value {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: #111;
+    }
+
+    .slider-value span {
+      font-size: 0.8rem;
+      font-weight: normal;
+      color: #888;
+      margin-left: 2px;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #e0e0e0;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #6ab04c;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+
+    /* 高速トグル */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0;
+    }
+
+    .toggle-label {
+      font-size: 0.88rem;
+      color: #555;
+    }
+
+    .toggle-sub {
+      font-size: 0.76rem;
+      color: #999;
+      margin-top: 2px;
+    }
+
+    .toggle {
+      position: relative;
+      width: 46px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+
+    .toggle input { opacity: 0; width: 0; height: 0; }
+
+    .slider-sw {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: #ccc;
+      border-radius: 26px;
+      transition: 0.3s;
+    }
+
+    .slider-sw:before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      left: 3px;
+      bottom: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    .toggle input:checked + .slider-sw { background: #6ab04c; }
+    .toggle input:checked + .slider-sw:before { transform: translateX(20px); }
+
+    .highway-detail {
+      margin-top: 18px;
+      display: none;
+    }
+
+    .nexco-link {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 0.82rem;
+      color: #6ab04c;
+      text-decoration: none;
+    }
+
+    .nexco-link:hover {
+      text-decoration: underline;
+    }
+
+    /* オプション */
+    .option-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 0;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+    }
+
+    .option-row:last-child { border-bottom: none; }
+
+    .option-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: #444;
+    }
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #6ab04c;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .option-price {
+      font-size: 0.88rem;
+      font-weight: bold;
+      color: #333;
+      white-space: nowrap;
+    }
+
+    /* 深夜 */
+    .midnight-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* 合計カード */
+    .total-card {
+      background: #111;
+      border-radius: 8px;
+      padding: 22px;
+      margin-bottom: 14px;
+    }
+
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.84rem;
+      color: #888;
+      padding: 4px 0;
+    }
+
+    .breakdown-row.midnight {
+      color: #aaa;
+    }
+
+    .total-line {
+      border-top: 1px solid #2a2a2a;
+      margin-top: 12px;
+      padding-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .total-line > span:first-child {
+      color: #666;
+      font-size: 0.88rem;
+    }
+
+    .total-amount {
+      color: #6ab04c;
+      font-size: 2rem;
+      font-weight: 900;
+    }
+
+    .btn-reset {
+      width: 100%;
+      padding: 13px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      color: #888;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    .btn-reset:active { background: #f5f5f5; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>株式会社極一</h1>
+  <p>レッカー料金計算</p>
+</header>
+
+<div class="container">
+
+  <!-- 距離スライダー -->
+  <div class="card">
+    <div class="card-title">距離</div>
+
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-label">回送距離</span>
+        <div class="slider-value" id="kaisouVal">0<span>km</span></div>
+      </div>
+      <input type="range" id="kaisou" min="0" max="100" step="1" value="0" oninput="updateSlider('kaisou'); calc()">
+    </div>
+
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-label">搬送距離</span>
+        <div class="slider-value" id="hansouVal">0<span>km</span></div>
+      </div>
+      <input type="range" id="hansou" min="0" max="100" step="1" value="0" oninput="updateSlider('hansou'); calc()">
+    </div>
+  </div>
+
+  <!-- 高速道路 -->
+  <div class="card">
+    <div class="card-title">高速道路</div>
+    <div class="toggle-row">
+      <div>
+        <div class="toggle-label">高速道路を利用する</div>
+        <div class="toggle-sub">中型車料金 約29.52円/km</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="highway" onchange="toggleHighway(); calc()">
+        <span class="slider-sw"></span>
+      </label>
+    </div>
+    <div class="highway-detail" id="highwayDetail">
+      <div class="slider-header" style="margin-top:4px;">
+        <span class="slider-label">高速利用距離</span>
+        <div class="slider-value" id="highwayVal">0<span>km</span></div>
+      </div>
+      <input type="range" id="highwayKm" min="0" max="200" step="5" value="0" oninput="updateSlider('highwayKm'); calc()">
+      <a class="nexco-link" href="https://www.driveplaza.com/dp/SearchTop" target="_blank" rel="noopener noreferrer">正確な料金はNEXCO公式で確認 &rarr;</a>
+    </div>
+  </div>
+
+  <!-- オプション -->
+  <div class="card">
+    <div class="card-title">オプション</div>
+    <label class="option-row">
+      <div class="option-left">
+        <input type="checkbox" id="oshidashi" onchange="calc()">
+        <span>手押し（20mまで）</span>
+      </div>
+      <span class="option-price">6,600円</span>
+    </label>
+    <label class="option-row">
+      <div class="option-left">
+        <input type="checkbox" id="winch" onchange="calc()">
+        <span>ウインチ作業</span>
+      </div>
+      <span class="option-price">3,300円</span>
+    </label>
+    <label class="option-row">
+      <div class="option-left">
+        <input type="checkbox" id="glass" onchange="calc()">
+        <span>リアガラス養生</span>
+      </div>
+      <span class="option-price">3,300円</span>
+    </label>
+    <label class="option-row">
+      <div class="option-left">
+        <input type="checkbox" id="cleanup" onchange="calc()">
+        <span>現場清掃</span>
+      </div>
+      <span class="option-price">3,300円</span>
+    </label>
+  </div>
+
+  <!-- 深夜割増 -->
+  <div class="card">
+    <div class="midnight-toggle">
+      <div>
+        <div style="font-size:0.88rem; color:#555; font-weight:bold;">深夜割増（22:00〜6:00）</div>
+        <div style="font-size:0.76rem; color:#999; margin-top:2px;">作業小計の 20% 割増</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="midnight" onchange="calc()">
+        <span class="slider-sw"></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 合計 -->
+  <div class="total-card">
+    <div id="breakdown"></div>
+    <div class="total-line">
+      <span>合計（税込）</span>
+      <span class="total-amount" id="totalAmount">31,500円</span>
+    </div>
+  </div>
+
+  <button class="btn-reset" onclick="resetAll()">リセット</button>
+
+</div>
+
+<script>
+  const HIGHWAY_RATE = 29.52; // 中型車 円/km
+
+  function updateSlider(id) {
+    const val = document.getElementById(id).value;
+    const labels = { kaisou: 'kaisouVal', hansou: 'hansouVal', highwayKm: 'highwayVal' };
+    const el = document.getElementById(labels[id]);
+    if (el) el.innerHTML = val + '<span>km</span>';
+
+    // スライダーの塗り色を更新
+    const input = document.getElementById(id);
+    const pct = (val - input.min) / (input.max - input.min) * 100;
+    input.style.background = `linear-gradient(to right, #6ab04c ${pct}%, #e0e0e0 ${pct}%)`;
+  }
+
+  function toggleHighway() {
+    const on = document.getElementById('highway').checked;
+    document.getElementById('highwayDetail').style.display = on ? 'block' : 'none';
+  }
+
+  function isChecked(id) {
+    return document.getElementById(id).checked;
+  }
+
+  function fmt(n) {
+    return n.toLocaleString('ja-JP') + '円';
+  }
+
+  function calc() {
+    const kaisou = parseFloat(document.getElementById('kaisou').value) || 0;
+    const hansou = parseFloat(document.getElementById('hansou').value) || 0;
+    const highwayKm = isChecked('highway') ? (parseFloat(document.getElementById('highwayKm').value) || 0) : 0;
+
+    const base1 = 18500;
+    const base2 = 13000;
+    const kaisouFee = Math.round(kaisou * 130);
+    const hansouFee = Math.round(hansou * 880);
+    const highwayFee = Math.round(highwayKm * HIGHWAY_RATE);
+
+    const rows = [];
+    rows.push({ label: '基本出動料', amount: base1 });
+    rows.push({ label: '基本作業料', amount: base2 });
+    if (kaisouFee > 0) rows.push({ label: `回送 ${kaisou}km × 130円`, amount: kaisouFee });
+    if (hansouFee > 0) rows.push({ label: `搬送 ${hansou}km × 880円`, amount: hansouFee });
+    if (highwayFee > 0) rows.push({ label: `高速料金 ${highwayKm}km（中型）`, amount: highwayFee });
+
+    let optTotal = 0;
+    if (isChecked('oshidashi')) { optTotal += 6600; rows.push({ label: '手押し', amount: 6600 }); }
+    if (isChecked('winch'))     { optTotal += 3300; rows.push({ label: 'ウインチ作業', amount: 3300 }); }
+    if (isChecked('glass'))     { optTotal += 3300; rows.push({ label: 'リアガラス養生', amount: 3300 }); }
+    if (isChecked('cleanup'))   { optTotal += 3300; rows.push({ label: '現場清掃', amount: 3300 }); }
+
+    const subtotal = base1 + base2 + kaisouFee + hansouFee + highwayFee + optTotal;
+
+    let midnightFee = 0;
+    if (isChecked('midnight')) {
+      midnightFee = Math.round(subtotal * 0.2);
+      rows.push({ label: '深夜割増（20%）', amount: midnightFee, mid: true });
+    }
+
+    const total = subtotal + midnightFee;
+
+    document.getElementById('breakdown').innerHTML = rows.map(r =>
+      `<div class="breakdown-row${r.mid ? ' midnight' : ''}">
+        <span>${r.label}</span><span>${fmt(r.amount)}</span>
+      </div>`
+    ).join('');
+
+    document.getElementById('totalAmount').textContent = fmt(total);
+  }
+
+  function resetAll() {
+    ['kaisou','hansou','highwayKm'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.value = 0; updateSlider(id); }
+    });
+    ['oshidashi','winch','glass','cleanup','midnight','highway'].forEach(id => {
+      document.getElementById(id).checked = false;
+    });
+    document.getElementById('highwayDetail').style.display = 'none';
+    calc();
+  }
+
+  // 初期化
+  ['kaisou','hansou','highwayKm'].forEach(id => updateSlider(id));
+  calc();
+</script>
+
+</body>
+</html>
