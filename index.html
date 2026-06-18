@@ -156,37 +156,70 @@
     /* ===== HERO ===== */
     .hero {
       position: relative;
-      height: 520px;
+      min-height: 520px;
       overflow: hidden;
-      background: #6ab04c;
+      background: #2d2d2d;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
+      gap: 0;
     }
 
     .hero-bg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      object-position: center center;
+      display: none;
     }
 
     .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.0) 75%);
+      display: none;
     }
 
     .hero-content {
-      position: absolute;
-      inset: 0;
+      position: relative;
+      z-index: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 0 56px;
-      max-width: 620px;
+      padding: 48px 48px 48px 56px;
+      flex: 1;
+      max-width: 560px;
+    }
+
+    .hero-logo-wrap {
+      flex-shrink: 0;
+      width: 280px;
+      height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 40px 32px 0;
+    }
+
+    .hero-logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        flex-direction: column;
+        align-items: center;
+        padding-top: 32px;
+      }
+      .hero-content {
+        padding: 0 24px 32px;
+        max-width: 100%;
+        order: 2;
+      }
+      .hero-logo-wrap {
+        width: 180px;
+        height: 180px;
+        padding: 0;
+        order: 1;
+        margin-bottom: 8px;
+      }
     }
 
     .hero-tag {
@@ -617,13 +650,14 @@
 
 <!-- ヒーロー -->
 <div class="hero">
-  <img class="hero-bg" src="１.png" alt="極一看板">
-  <div class="hero-overlay"></div>
   <div class="hero-content">
     <span class="hero-tag">滋賀県大津市の輸入車専門店</span>
     <h1>極上の一台を、<br>あなたへ。</h1>
     <p>Mercedes-Benz・BMW・Bentleyなど欧州高級輸入車を中心に<br>販売・レンタカー・車検整備・レッカーまで幅広くお応えします。</p>
     <a href="tel:0775487084" class="hero-btn">077-548-7084 に電話する</a>
+  </div>
+  <div class="hero-logo-wrap">
+    <img src="logo.PNG" alt="株式会社ゴクイチ">
   </div>
 </div>
 
