@@ -166,7 +166,15 @@
     }
 
     .hero-bg {
-      display: none;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      opacity: 0.12;
+      pointer-events: none;
+      transform: scale(1.1);
     }
 
     .hero-overlay {
@@ -650,6 +658,7 @@
 
 <!-- ヒーロー -->
 <div class="hero">
+  <img class="hero-bg" src="logo.PNG" alt="">
   <div class="hero-content">
     <span class="hero-tag">滋賀県大津市の輸入車専門店</span>
     <h1>極上の一台を、<br>あなたへ。</h1>
